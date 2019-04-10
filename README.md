@@ -17,7 +17,7 @@ https://www.scaledrone.com/blog/webrtc-tutorial-simple-video-chat/
   - When all features will be ready you have to merge the development branch to the master.
 
 # Requirements for streaming application
-There are three options to choose from. 
+There are two options to choose from. 
 
 Option A:
   - Capture images from camera by using WebRTC API. Basic code for chat application is provided.
