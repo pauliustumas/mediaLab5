@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<!--
+ *  Copyright (c) 2015 The WebRTC project authors. All Rights Reserved.
+ *
+ *  Use of this source code is governed by a BSD-style license
+ *  that can be found in the LICENSE file in the root of the source
+ *  tree.
+-->
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, 
+user-scalable=yes, initial-scale=1, maximum-scale=1">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta id="theme-color" name="theme-color" content="#ffffff">
+
+    <base target="_blank">
+
+    <title>4 Laboratorinis darbas</title>
+
+    <link 
+href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" 
+rel="stylesheet" type="text/css">
+    <link rel="stylesheet" src="js/main.css">
+
+    <style>
+	:root {
+	--value: 0;
+	--value2: 0;
+	}
+
+        .none {
+            -webkit-filter: none;
+            filter: none;
+        }
+        .blur {
+            -webkit-filter: blur(var(--value2));
+            filter: blur(var(--value2));
+        }
+        .grayscale {
+            -webkit-filter: grayscale(var(--value));
+            filter: grayscale(var(--value));
+        }
+        .invert {
+            -webkit-filter: invert(var(--value));
+            filter: invert(var(--value));
+        }
+        .sepia {
+            -webkit-filter: sepia(var(--value));
+            filter: sepia(var(--value));
+        }
+		.contrast {
+			-webkit-filter: contrast(var(--value));
+			filter: contrast(var(--value));
+		}
+		.saturate {
+			-webkit-filter: saturate(var(--value));
+			filter: saturate(var(--value));
+		}
+        button#snapshot {
+            margin: 0 10px 25px 0;
+            width: 110px;
+        }
+        video {
+            object-fit: cover;
+        }
+    </style>
+</head>
+
+<body>
+<div id="container">
+
+<h1>4 Laboratorinis darbas</h1>
+
+    <video playsinline autoplay></video>
+
+    <label for="filter">Filter: </label>
+    <select id="filter">
+        <option value="none">None</option>
+        <option value="blur">Blur</option>
+        <option value="grayscale">Grayscale</option>
+        <option value="invert">Invert</option>
+        <option value="sepia">Sepia</option>
+	<option value="contrast">Contrast</option>
+	<option value="saturate">Saturate</option>
+    </select>
+        <button id="snapshot">Take snapshot</button>
+	<input type="range" min="0" max="10" id="myRange" value="0" 
+onchange="myFunction()">
+	<canvas></canvas>
+</div>
+<p id="demo"></p>
+<script>
+function myFunction()
+{
+	var x = document.getElementById("myRange").value;
+	document.getElementById("demo").innerHTML = x;
+	document.documentElement.style.setProperty('--value', x);
+	document.documentElement.style.setProperty('--value2', x+"px");
+	 	
+}
+</script>
+<script 
+src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+<script src="js/main.js" async></script>
+</body>
+</html>
+
