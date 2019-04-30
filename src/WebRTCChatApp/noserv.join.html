@@ -12,13 +12,8 @@
 <textarea id="creater-sdp" placeholder="HERE COPY & PASTE [1.CREATE Offer's SDP]"></textarea>
 <h3> 3.CREATE Participant'S SDP <button id="create">CREATE</button> </h3>
 <textarea id="joiner-sdp"></textarea>
-<h3> CHAT </h3>
-<div id="chat">
-  <div id="chat-screen-wp">
-    <div id="chat-screen"></div>
-  </div>
-  <div id="ct"><input id="msg" disabled><button id="send" disabled>send</button></div>
-</div>
+<h3> Gaunamas tiesiogis eteris </h3>
+<canvas id="capture" height=300 width=300></canvas>
 <script>
 //var server       = { urls: "stun:stun.l.google.com:19302" };
 var sdpConstraints = { optional: [{RtpDataChannels: true}]  };
@@ -50,21 +45,18 @@ function createAnswerSDP() {
   sdpConstraints);
 };
 
-var sendMSG = function() {
-  var value = $("#msg").val();
-  if (value) {
-    dc.send(value);
-    addMSG(value, "me");
-    $("#msg").val('');
-  }
-}
 
 var addMSG = function(msg, who) {
-  var wrap = $("<div>").addClass("wrap").appendTo($("#chat-screen"));
-  var div  = $("<div>").addClass(who).appendTo(wrap);
+  var canvas = document.getElementById("capture");
+  var ctx = canvas.getContext("2d");
+  var image = new Image();
+  image.onload = function() {
+    ctx.drawImage(image, 0, 0, 300, 300);
+  };
+  image.src = msg;
+
   $("<span>").html(who).addClass("who").appendTo(div);
   $("<span>").html(msg).addClass("msg").appendTo(div);
-  $("#chat-screen-wp").scrollTop($("#chat-screen").height());
 }
 
 $("#create").click(createAnswerSDP);

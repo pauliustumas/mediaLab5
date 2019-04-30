@@ -5,6 +5,13 @@
   <title> CREATE WebRTC channel </title>
   <link href="noserv.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+  <script src="JS/main.js" async></script>
+  <style>
+        video {
+            object-fit: cover;
+        }
+    </style>
 </head>
 <body>
 <h2> CREATE WebRTC channel <span id="status"> init </span></h2>
@@ -12,18 +19,23 @@
 <textarea id="creater-sdp"></textarea>
 <h3> 4.GET Participant's SDP <button id="start">start</button></h3>
 <textarea id="joiner-sdp" placeholder="HERE COPY AND PASTE [3.Participant'S SDP]"></textarea>
-<h3> CHAT </h3>
+<h3> Tiesioginis eteris </h3>
 <div id="chat">
-  <div id="chat-screen-wp">
-    <div id="chat-screen"></div>
-  </div>
-  <div id="ct"><input id="msg" disabled><button id="send" disabled>send</button></div>
+  <video playsinline autoplay></video>
+  <canvas></canvas>
+  <button id="send">send</button></div>
 </div>
 <script>
 //var server       = { urls: "stun:stun.l.google.com:19302" };
 var sdpConstraints = { optional: [{RtpDataChannels: true}]  };
 var pc = new RTCPeerConnection(null);
 var dc;
+
+        const canvas = window.canvas = document.querySelector('canvas');
+	canvas.style.display="none";
+	canvas.width = 100;
+	canvas.height = 100;
+	var pngUrl;
 
 pc.oniceconnectionstatechange = function(e) {
   var state = pc.iceConnectionState;
@@ -51,7 +63,6 @@ function start() {
   var answerDesc = new RTCSessionDescription(JSON.parse(answerSDP));
   pc.setRemoteDescription(answerDesc);
 }
-
 var addMSG = function(msg, who) {
   var wrap = $("<div>").addClass("wrap").appendTo($("#chat-screen"));
   var div  = $("<div>").addClass(who).appendTo(wrap);
@@ -62,13 +73,18 @@ var addMSG = function(msg, who) {
 
 createOfferSDP();
 
-var sendMSG = function() {
-  var value = $("#msg").val();
+function sendMSG() {
+
+	canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+	pngUrl = canvas.toDataURL();
+
+  var value = pngUrl;
   if (value) {
     dc.send(value);
     addMSG(value, "me");
     $("#msg").val('');
   }
+
 }
 $("#start").click(function(){start();});
 $("#msg").keypress(function(e) {if(e.which == 13) {sendMSG()}});
